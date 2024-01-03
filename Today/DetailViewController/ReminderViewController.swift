@@ -52,19 +52,19 @@ class ReminderViewController: UICollectionViewController {
     }
     
     func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
+        
         let section = section(for: indexPath)
         switch (section, row) {
         case(_, .header(let title)):
-            var contentConfiguration = cell.defaultContentConfiguration()
-            contentConfiguration.text = title
-            cell.contentConfiguration = contentConfiguration
+            cell.contentConfiguration = headerConfiguration(for: cell, with: title)
         case(.view, _):
-            var contentConfiguration = cell.defaultContentConfiguration()
-            contentConfiguration.text = text(for: row)
-            contentConfiguration.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle)
-            contentConfiguration.image = row.image
-            cell.contentConfiguration = contentConfiguration
-            
+            cell.contentConfiguration = defaultConfiguration(for: cell, at: row)
+        case(.title, .editableText(let title)):
+            cell.contentConfiguration = titleConfiguration(for: cell, with: title)
+        case(.date, .editableDate(let date)):
+            cell.contentConfiguration = dateConfiguration(for: cell, with: date)
+        case(.notes, .editableText(let notes)):
+            cell.contentConfiguration = notesConfiguration(for: cell, with: notes)
         default:
             fatalError("Unexpected combination of section and row.")
         }
@@ -81,9 +81,9 @@ class ReminderViewController: UICollectionViewController {
     private func updateSnapshotForEditing() {
         var snapShot = Snapshot()
         snapShot.appendSections([.title, .date, .notes])
-        snapShot.appendItems([.header(Section.title.name)], toSection: .title)
-        snapShot.appendItems([.header(Section.date.name)], toSection: .date)
-        snapShot.appendItems([.header(Section.notes.name)], toSection: .notes)
+        snapShot.appendItems([.header(Section.title.name), .editableText(reminder.title)], toSection: .title)
+        snapShot.appendItems([.header(Section.date.name), .editableDate(reminder.dueDate)], toSection: .date)
+        snapShot.appendItems([.header(Section.notes.name), .editableText(reminder.notes)], toSection: .notes)
         dataSource.apply(snapShot)
     }
     
@@ -93,15 +93,5 @@ class ReminderViewController: UICollectionViewController {
             fatalError("Unable to find matching section")
         }
         return section
-    }
-    
-    func text(for row: Row) -> String? {
-        switch row {
-        case .date: return reminder.dueDate.dayText
-        case .time: return reminder.dueDate.formatted(date: .omitted, time: .shortened)
-        case .title: return reminder.title
-        case .notes: return reminder.notes
-        default: return nil
-        }
     }
 }
