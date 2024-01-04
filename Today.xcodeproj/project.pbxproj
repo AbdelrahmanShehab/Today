@@ -183,8 +183,8 @@
 			children = (
 				6331B11F2B3852EC00D0848A /* ReminderListViewController.swift */,
 				631CD48C2B41CAE9002B2546 /* ReminderListViewController+DataSource.swift */,
-				63F399D22B42D66E007D8E6E /* ReminderDoneButton.swift */,
 				63F399D42B42D97C007D8E6E /* ReminderListViewController+Actions.swift */,
+				63F399D22B42D66E007D8E6E /* ReminderDoneButton.swift */,
 			);
 			path = ListViewControllers;
 			sourceTree = "<group>";

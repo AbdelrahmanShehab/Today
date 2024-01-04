@@ -42,7 +42,10 @@ class ReminderListViewController: UICollectionViewController {
     
     func pushDetailViewForReminder(withId id: Reminder.ID) {
         let reminder = reminder(withId: id)
-        let remindrVC = ReminderViewController(reminder: reminder)
+        let remindrVC = ReminderViewController(reminder: reminder) { [weak self] reminder in
+            self?.updateRminder(reminder)
+            self?.updateSnapshot(reloading: [reminder.id])
+        }
         navigationController?.pushViewController(remindrVC, animated: true)
     }
 }
