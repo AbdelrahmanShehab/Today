@@ -8,6 +8,11 @@
 import UIKit
 
 extension ReminderListViewController {
+    
+    @objc func eventStoreChanged(_ notification: NSNotification) {
+        reminderStoreChanged()
+    }
+    
     @objc func didPressedDoneButton(_ sender: ReminderDoneButton) {
         guard let id = sender.id else { return }
         completeReminer(withId: id)

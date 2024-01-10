@@ -12,6 +12,7 @@ enum TodayError: LocalizedError {
     case accessDenied
     case accessRestricted
     case failedReadingReminders
+    case failedReadingCalendarItem
     case reminderHasNoDueDate
     case unknown
     
@@ -33,6 +34,10 @@ enum TodayError: LocalizedError {
                 "A reminder has no due date.", comment: "reminder has no due date error description")
         case .unknown:
             return NSLocalizedString("An unknown error occurred.", comment: "unknown error description")
+        case .failedReadingCalendarItem:
+            return NSLocalizedString(
+                "Failed to read a calendar item.", comment: "failed reading calendar item error description"
+            )
         }
     }
     
